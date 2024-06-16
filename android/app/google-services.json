@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "20738478771",
+    "project_id": "sol-partner-f05c8",
+    "storage_bucket": "sol-partner-f05c8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:20738478771:android:2bb7525d6c134a3b2016c6",
+        "android_client_info": {
+          "package_name": "com.example.mishop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRfhpdpadFkMUm46uG_pmOs0r6Sa5a8Ug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:20738478771:android:65404e80ed8411492016c6",
+        "android_client_info": {
+          "package_name": "com.stepout.partnerapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRfhpdpadFkMUm46uG_pmOs0r6Sa5a8Ug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
