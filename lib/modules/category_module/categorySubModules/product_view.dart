@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mishop/modules/common_widget/back_button.dart';
 import 'package:mishop/utils/appColor.dart';
 import 'package:mishop/utils/assetPath.dart';
-import 'package:carousel_slider/carousel_controller.dart' as carousel_slider;
+// import 'package:carousel_slider/carousel_controller.dart' as carousel_slider;
 // Make sure to use 'carousel_slider.CarouselController' everywhere necessary
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:mishop/utils/utils.dart';
@@ -21,7 +21,7 @@ class _ProductViewState extends State<ProductView> {
   bool is1LSelected = false;
   bool isAdded = false;
 
-  final _controller = carousel_slider.CarouselController();
+  // final _controller = carousel_slider.CarouselController();
 
   void increment() {
     setState(() {
