@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mishop/modules/common_widget/back_button.dart';
 import 'package:mishop/utils/appColor.dart';
 import 'package:mishop/utils/assetPath.dart';
+import 'package:carousel_slider/carousel_controller.dart' as carousel_slider;
+// Make sure to use 'carousel_slider.CarouselController' everywhere necessary
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:mishop/utils/utils.dart';
 
@@ -18,7 +20,8 @@ class _ProductViewState extends State<ProductView> {
   int _currentIndex = 0;
   bool is1LSelected = false;
   bool isAdded = false;
-  // final _controller = PageController();
+
+  final _controller = carousel_slider.CarouselController();
 
   void increment() {
     setState(() {
@@ -81,8 +84,7 @@ class _ProductViewState extends State<ProductView> {
                                     return Padding(
                                       padding: const EdgeInsets.all(16.0),
                                       child: Hero(
-                                        tag:
-                                            "${widget.products[0]['id']}_$index", // Unique tag here
+                                        tag: "${widget.products[0]['id']}_$index", // Unique tag here
                                         child: Image.asset(images[index],
                                             height: 200, width: 200),
                                       ),
@@ -109,12 +111,10 @@ class _ProductViewState extends State<ProductView> {
                                     Container(
                                       height: 10,
                                       width: 10,
-                                      // color: darkBlue,
                                       decoration: BoxDecoration(
                                           color: _currentIndex == index
                                               ? darkBlue
                                               : greenColor,
-                                          // border: Border.all(),
                                           borderRadius:
                                               BorderRadius.circular(12)),
                                     ),
@@ -348,8 +348,11 @@ class _ProductViewState extends State<ProductView> {
                                     fontSize: 20),
                               )),
                             ),
-                          )
+                          ),
                         ],
+                      ),
+                      SizedBox(
+                        height: mediaQueryHeight * 0.02,
                       ),
                       Divider(
                         thickness: 1,
@@ -359,57 +362,96 @@ class _ProductViewState extends State<ProductView> {
                         height: mediaQueryHeight * 0.02,
                       ),
                       Text(
-                        'Description',
+                        'Product Details',
                         style: TextStyle(
-                            color: inactiveText,
-                            fontSize: 12,
-                            fontFamily: 'Roboto',
-                            fontWeight: FontWeight.w400),
-                      ),
-                      Text(
-                        'It is oil most often used in South Asian and Southeast Asian cuisine. Groundnut oil is appreciated for its high smoke point relative to many other cooking oils. In addition, it has a pleasing taste that can add additional character to a dish apart from the refined groundnut oil which doesn’t hold much major nutty flavor of the groundnut.',
-                        style: TextStyle(
-                            color: activeText,
                             fontSize: 14,
                             fontFamily: 'Roboto',
-                            fontWeight: FontWeight.w400),
+                            fontWeight: FontWeight.w500,
+                            color: activeText),
+                      ),
+                      SizedBox(
+                        height: mediaQueryHeight * 0.02,
+                      ),
+                      Text(
+                        'Brand: Dhara \nPack Type: Bottle \nForm: Refined \n\nIs oil in itself is high in quality due to... ',
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontFamily: 'Roboto',
+                            fontWeight: FontWeight.w400,
+                            color: inactiveText),
                       ),
                     ],
                   ),
                 ),
               ),
             ),
-            Padding(
+            Container(
               padding: EdgeInsets.symmetric(
-                horizontal: mediaQueryWidth * 0.06,
-              ),
-              child: ElevatedButton(
-                  onPressed: () {
-                    Utils().customFlushbar(context,
-                        message: "Item added successfully");
-                  },
-                  style: ElevatedButton.styleFrom(
-                      shape: const StadiumBorder(),
-                      backgroundColor: greenColor,
-                      minimumSize: Size.fromHeight(50)),
-                  // ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(shoppingCartAdd),
-                      SizedBox(
-                        width: mediaQueryWidth * 0.02,
-                      ),
-                      Text(
-                        'Add to Cart',
+                  horizontal: mediaQueryWidth * 0.06,
+                  vertical: mediaQueryHeight * 0.02),
+              color: whiteColor,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  isAdded
+                      ? Container(
+                          height: 50,
+                          width: 140,
+                          decoration: BoxDecoration(
+                              color: lightestGrey,
+                              borderRadius: BorderRadius.circular(12)),
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.shopping_cart),
+                                Text(
+                                  'Go to Cart',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: 'Roboto'),
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      : Container(
+                          height: 50,
+                          width: 140,
+                          decoration: BoxDecoration(
+                              color: greenColor,
+                              borderRadius: BorderRadius.circular(12)),
+                          child: Center(
+                            child: Text(
+                              'Add to Cart',
+                              style: TextStyle(
+                                  fontFamily: 'Roboto',
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: whiteColor),
+                            ),
+                          ),
+                        ),
+                  Container(
+                    height: 50,
+                    width: 140,
+                    decoration: BoxDecoration(
+                        color: darkBlue,
+                        borderRadius: BorderRadius.circular(12)),
+                    child: Center(
+                      child: Text(
+                        'Buy Now',
                         style: TextStyle(
-                            color: whiteColor,
                             fontFamily: 'Roboto',
+                            fontSize: 14,
                             fontWeight: FontWeight.w500,
-                            fontSize: 18),
+                            color: whiteColor),
                       ),
-                    ],
-                  )),
+                    ),
+                  )
+                ],
+              ),
             )
           ],
         ),
