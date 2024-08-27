@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mishop/modules/common_widget/back_button.dart';
 import 'package:mishop/utils/appColor.dart';
 import 'package:mishop/utils/assetPath.dart';
-// import 'package:carousel_slider/carousel_controller.dart' as carousel_slider;
-// Make sure to use 'carousel_slider.CarouselController' everywhere necessary
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:mishop/utils/utils.dart';
 
 class ProductView extends StatefulWidget {
@@ -21,7 +18,7 @@ class _ProductViewState extends State<ProductView> {
   bool is1LSelected = false;
   bool isAdded = false;
 
-  // final _controller = carousel_slider.CarouselController();
+  final PageController _pageController = PageController();
 
   void increment() {
     setState(() {
@@ -67,32 +64,25 @@ class _ProductViewState extends State<ProductView> {
                       children: [
                         backButton(onTap: () => Navigator.of(context).pop()),
                         Expanded(
-                          child: CarouselSlider(
-                            options: CarouselOptions(
-                              height: 200.0,
-                              onPageChanged: (index, reason) {
-                                setState(() {
-                                  _currentIndex = index;
-                                });
-                              },
-                            ),
-                            items: List.generate(
-                              images.length,
-                              (index) {
-                                return Builder(
-                                  builder: (BuildContext context) {
-                                    return Padding(
-                                      padding: const EdgeInsets.all(16.0),
-                                      child: Hero(
-                                        tag: "${widget.products[0]['id']}_$index", // Unique tag here
-                                        child: Image.asset(images[index],
-                                            height: 200, width: 200),
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
-                            ).toList(),
+                          child: PageView.builder(
+                            controller: _pageController,
+                            onPageChanged: (index) {
+                              setState(() {
+                                _currentIndex = index;
+                              });
+                            },
+                            itemCount: images.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Hero(
+                                  tag:
+                                      "${widget.products[0]['id']}_$index", // Unique tag here
+                                  child: Image.asset(images[index],
+                                      height: 200, width: 200),
+                                ),
+                              );
+                            },
                           ),
                         ),
                         CircleAvatar(
@@ -105,24 +95,25 @@ class _ProductViewState extends State<ProductView> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ...List.generate(
-                            images.length,
-                            (index) => Row(
-                                  children: [
-                                    Container(
-                                      height: 10,
-                                      width: 10,
-                                      decoration: BoxDecoration(
-                                          color: _currentIndex == index
-                                              ? darkBlue
-                                              : greenColor,
-                                          borderRadius:
-                                              BorderRadius.circular(12)),
-                                    ),
-                                    SizedBox(
-                                      width: 3,
-                                    )
-                                  ],
-                                )),
+                          images.length,
+                          (index) => Row(
+                            children: [
+                              Container(
+                                height: 10,
+                                width: 10,
+                                decoration: BoxDecoration(
+                                  color: _currentIndex == index
+                                      ? darkBlue
+                                      : greenColor,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 3,
+                              )
+                            ],
+                          ),
+                        ),
                       ],
                     )
                   ],
@@ -366,19 +357,19 @@ class _ProductViewState extends State<ProductView> {
                         style: TextStyle(
                             fontSize: 14,
                             fontFamily: 'Roboto',
-                            fontWeight: FontWeight.w500,
-                            color: activeText),
+                            color: inactiveText,
+                            fontWeight: FontWeight.w400),
                       ),
                       SizedBox(
                         height: mediaQueryHeight * 0.02,
                       ),
                       Text(
-                        'Brand: Dhara \nPack Type: Bottle \nForm: Refined \n\nIs oil in itself is high in quality due to... ',
+                        'Refined oil is used in various household cooking including deep frying, stir frying, and as a dressing for salads and baked goods.',
                         style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 12,
                             fontFamily: 'Roboto',
-                            fontWeight: FontWeight.w400,
-                            color: inactiveText),
+                            color: inactiveText,
+                            fontWeight: FontWeight.w400),
                       ),
                     ],
                   ),
@@ -386,73 +377,63 @@ class _ProductViewState extends State<ProductView> {
               ),
             ),
             Container(
+              color: lightestGrey,
               padding: EdgeInsets.symmetric(
                   horizontal: mediaQueryWidth * 0.06,
                   vertical: mediaQueryHeight * 0.02),
-              color: whiteColor,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   isAdded
-                      ? Container(
-                          height: 50,
-                          width: 140,
-                          decoration: BoxDecoration(
-                              color: lightestGrey,
-                              borderRadius: BorderRadius.circular(12)),
-                          child: Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.shopping_cart),
-                                Text(
-                                  'Go to Cart',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: 'Roboto'),
-                                )
-                              ],
-                            ),
+                      ? ElevatedButton.icon(
+                          onPressed: () {
+                            setState(() {
+                              isAdded = !isAdded;
+                            });
+                          },
+                          icon: Icon(
+                            Icons.remove_shopping_cart,
+                            color: Colors.white,
+                          ),
+                          label: Text(
+                            'Remove from Cart',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.red),
                           ),
                         )
-                      : Container(
-                          height: 50,
-                          width: 140,
-                          decoration: BoxDecoration(
-                              color: greenColor,
-                              borderRadius: BorderRadius.circular(12)),
-                          child: Center(
-                            child: Text(
-                              'Add to Cart',
-                              style: TextStyle(
-                                  fontFamily: 'Roboto',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: whiteColor),
-                            ),
+                      : ElevatedButton.icon(
+                          onPressed: () {
+                            setState(() {
+                              isAdded = !isAdded;
+                            });
+                          },
+                          icon: Icon(
+                            Icons.add_shopping_cart,
+                            color: Colors.white,
+                          ),
+                          label: Text(
+                            'Add to Cart',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(greenColor),
                           ),
                         ),
-                  Container(
-                    height: 50,
-                    width: 140,
-                    decoration: BoxDecoration(
-                        color: darkBlue,
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Center(
-                      child: Text(
-                        'Buy Now',
-                        style: TextStyle(
-                            fontFamily: 'Roboto',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: whiteColor),
-                      ),
-                    ),
-                  )
+                  Text(
+                    'Rs. ${count * 540}',
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.w500,
+                        color: darkBlue),
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
